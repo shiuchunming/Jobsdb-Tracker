@@ -56,11 +56,12 @@ def send_mail(result):
     msg['Subject'] = SUBJECT
     msg['From'] = FROM
     msg['To'] = TO
+    password = input(Password: )
 
     server = smtplib.SMTP('smtp.gmail.com', port=587)
     server.ehlo()
     server.starttls()
-    server.login(FROM, "0O12006n9#db+9ts")
+    server.login(FROM, password)
     server.send_message(msg)
     server.quit()
 
