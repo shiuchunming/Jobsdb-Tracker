@@ -40,15 +40,14 @@ def download(url):
 
     with open(file_name, mode='wb') as file:
         content = web.text
-
         file.write(content.encode(web.encoding))
     
     return file_name
 
-def send_mail(result):
-    TO = "hugoshiu1222@gmail.com"
-    FROM = "hugoshiu1222@gmail.com"
-    SUBJECT = "Your Spiderman Found A Matched Job"
+def send_mail(result, password,
+                TO = "hugoshiu1222@gmail.com", 
+                FROM = "hugoshiu1222@gmail.com", 
+                SUBJECT = "Your Spiderman Found A Matched Job"):
 
     msg = EmailMessage()
     msg.set_content(result)
@@ -56,7 +55,6 @@ def send_mail(result):
     msg['Subject'] = SUBJECT
     msg['From'] = FROM
     msg['To'] = TO
-    password = input(Password: )
 
     server = smtplib.SMTP('smtp.gmail.com', port=587)
     server.ehlo()
@@ -89,9 +87,10 @@ if __name__ == '__main__':
     for url in urls:
         soup = BeautifulSoup(open(url), "html.parser")
         for item in soup.find_all('div', {'class': 'jobad-primary'}):
-            if re.search(re.compile("(?i)trading|cloud computing|fintech"), item.text.rstrip().replace(" ", "")):
+            if re.search(re.compile("(?i)trading|cloud|fintech"), item.text.rstrip().replace(" ", "")):
                 result = metaManager.read_meta(url)
                 results.add(result)
     
+    password = input("Password: ")
     for result in results:
-        send_mail(result)
+        send_mail(result, password)
