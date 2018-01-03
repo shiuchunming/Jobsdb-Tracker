@@ -13,7 +13,7 @@ from email.message import EmailMessage
 def extractURL():
     urls = set()
     try:
-        soup = BeautifulSoup(open("baseurl/information-technology.html"), "html.parser")
+        soup = BeautifulSoup(open("data/baseurl/information-technology.html"), "html.parser")
     except:
         logging.exception("ERROR: BaseURL file not exist.")
 
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             logging.exception("ERROR: Network/HTMLStatus encounter en error.")
             sys.exit(1)
 
-    with open("baseurl/information-technology.html", mode='wb') as file:
+    with open("data/baseurl/information-technology.html", mode='wb') as file:
         content = web.text
         file.write(content.encode(web.encoding))
     
@@ -90,7 +90,6 @@ if __name__ == '__main__':
         for item in soup.find_all('div', {'class': 'jobad-primary'}):
             if re.search(re.compile("(?i)trading|cloud computing|fintech"), item.text.rstrip().replace(" ", "")):
                 result = metaManager.read_meta(url)
-                print("*" + result)
                 results.add(result)
     
     for result in results:
